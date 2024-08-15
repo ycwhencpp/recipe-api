@@ -38,40 +38,38 @@ class RecipeAPITestCase(APITestCase):
         recipes = Recipe.objects.all()
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+
+        def normalize_picture_field(data):
+            for item in data:
+                if 'picture' in item:
+                    item['picture'] = item['picture'].replace('http://testserver', '')
+            return data
+        response_data_normalized = normalize_picture_field(response.data)
+        serializer_data_normalized = normalize_picture_field( serializer.data)
+        self.assertEqual(response_data_normalized, serializer_data_normalized)
 
 
-    # def test_recipe_create(self):
-    #     self.client.force_authenticate(user=self.user)
-    #     url = reverse('recipe:recipe-create')
+    def test_recipe_create(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse('recipe:recipe-create')
         
-    #     # Open the image file using SimpleUploadedFile
-    #     image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
-    #     picture = SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
-        
-    #     data = {
-    #         'title': 'New Recipe',
+        image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
+        picture = SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
+        print(f"category {self.category.name}")
+        data = {
+            'title': 'New Recipe',
+            'desc': 'New Description',
+            'cook_time': '02:30:00',  
+            'ingredients': 'New Ingredients',
+            'procedure': 'New Procedure',
+            'picture': picture,
+            'category': self.category,
+        }
 
-    #         'author': self.user.id,  # Use user ID instead of email
-    #         'category': self.category.id,
-    #         'desc': 'New Description',
-    #         'cook_time': '02:30:00',  # Use a string in the format HH:MM:SS for TimeField
-    #         'ingredients': 'New Ingredients',
-    #         'procedure': 'New Procedure',
-    #         'picture': picture,
-    #         'created_at': '2024-08-15T10:00:00Z',  # Use ISO 8601 string for DateTimeField
-    #         'updated_at': '2024-08-15T10:00:00Z',  # Use ISO 8601 string for DateTimeField
-    #     }
-        
-    #     response = self.client.post(url, data, format='multipart')
-        
-    #     if response.status_code != status.HTTP_201_CREATED:
-    #         print(f"Response status code: {response.status_code}")
-    #         print(f"Response data: {response.data}")
-        
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(Recipe.objects.count(), 2)
-    #     self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
+        response = self.client.post(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Recipe.objects.count(), 2)
+        self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
 
 
 
