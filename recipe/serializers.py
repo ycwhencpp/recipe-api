@@ -38,7 +38,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def get_total_number_of_bookmarks(self, obj):
         return obj.get_total_number_of_bookmarks()
-
     def create(self, validated_data):
         category = validated_data.pop('category')
         category_instance, created = RecipeCategory.objects.get_or_create(
