@@ -91,12 +91,6 @@ class MailStatSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(f"Invalid mail type. Choose from {', '.join(valid_types)}")
         return value
 
-class RecipeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = ['id', 'title']
-
-
 class RecipeLikeNotificationsSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     recipe = RecipeSerializer(read_only=True)
