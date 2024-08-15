@@ -66,7 +66,6 @@ def process_mail_queue(limit=100):
     offset = 0
     while True:
         mails = MailQueue.objects.filter(is_sent=False, id__gt=offset).order_by('id')[:limit]
-        
         if not mails.exists():
             break  
 

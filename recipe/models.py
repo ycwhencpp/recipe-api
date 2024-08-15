@@ -76,7 +76,7 @@ class MailQueue(models.Model):
     """
 
     MAIL_TYPES = (
-        ('daily_receipe_like', 'daily_receipe_like'),
+        ('daily_recipe_like', 'daily_recipe_like'),
     )
 
     recipient = models.CharField(max_length=50)
@@ -98,7 +98,7 @@ class MailStat(models.Model):
     Model to store emails stats
     """
     MAIL_TYPES = (
-        ('daily_receipe_like', 'daily_receipe_like'),
+        ('daily_recipe_like', 'daily_recipe_like'),
     )
 
     recipient = models.CharField(max_length=50)
