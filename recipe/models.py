@@ -65,3 +65,70 @@ class RecipeLike(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+
+#cron in every 5 min or 10 min depends on use case
+class MailQueue(models.Model):
+    """
+    Model to store temp emails for processing
+    we should truncuate this table weekly
+    """
+
+    MAIL_TYPES = (
+        ('daily_recipe_like', 'daily_recipe_like'),
+    )
+
+    recipient = models.CharField(max_length=50)
+    sender = models.CharField(max_length=50)
+    subject = models.TextField()
+    body = models.TextField()
+    mail_type = models.CharField(max_length=20, choices=MAIL_TYPES)
+    is_sent = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.mail_type} for {self.recipient}"
+    
+class MailStat(models.Model):
+    """
+    Model to store emails stats
+    """
+    MAIL_TYPES = (
+        ('daily_recipe_like', 'daily_recipe_like'),
+    )
+
+    recipient = models.CharField(max_length=50)
+    sender = models.CharField(max_length=50)
+    subject = models.TextField()
+    body = models.TextField()
+    mail_type = models.CharField(max_length=20, choices=MAIL_TYPES)
+    sent_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.mail_type} for {self.recipient}"
+    
+
+# update likes_count in realtime 
+class RecipeLikeNotifications(models.Model) :
+
+    """
+    Model to store Like counts for Mails, notification 
+    for weekly, monthly, bi-weekly, just add columns and update value whenever a like request is made
+    """
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe_likes_today = models.IntegerField()
+    recipe_likes_weekly = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

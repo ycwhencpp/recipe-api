@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from .models import Recipe, RecipeCategory, RecipeLike
+from .models import Recipe, RecipeCategory, RecipeLike, MailQueue, MailStat, RecipeLikeNotifications
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class RecipeCategorySerializer(serializers.ModelSerializer):
@@ -60,3 +64,54 @@ class RecipeLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeLike
         fields = ('id', 'user', 'recipe')
+
+
+
+class MailQueueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MailQueue
+        fields = ['id', 'recipient', 'sender', 'subject', 'body', 'mail_type', 'is_sent', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+    def validate_mail_type(self, value):
+        valid_types = dict(MailQueue.MAIL_TYPES).keys()
+        if value not in valid_types:
+            raise serializers.ValidationError(f"Invalid mail type. Choose from {', '.join(valid_types)}")
+        return value
+
+class MailStatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MailStat
+        fields = ['id', 'recipient', 'sender', 'subject', 'body', 'mail_type', 'sent_at', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+    def validate_mail_type(self, value):
+        valid_types = dict(MailStat.MAIL_TYPES).keys()
+        if value not in valid_types:
+            raise serializers.ValidationError(f"Invalid mail type. Choose from {', '.join(valid_types)}")
+        return value
+
+class RecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = ['id', 'title']
+
+
+class RecipeLikeNotificationsSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    recipe = RecipeSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), 
+        write_only=True, 
+        source='user'
+    )
+    recipe_id = serializers.PrimaryKeyRelatedField(
+        queryset=Recipe.objects.all(), 
+        write_only=True, 
+        source='recipe'
+    )
+
+    class Meta:
+        model = RecipeLikeNotifications
+        fields = ['id', 'user', 'recipe', 'user_id', 'recipe_id', 'recipe_likes_today', 'recipe_likes_weekly', 'created_at']
+        read_only_fields = ['id', 'created_at']

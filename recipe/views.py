@@ -7,6 +7,8 @@ from .models import Recipe, RecipeLike
 from .serializers import RecipeLikeSerializer, RecipeSerializer
 from .permissions import IsAuthorOrReadOnly
 
+from .tasks import create_or_update_recipe_like_notification_for_mail
+
 
 class RecipeListAPIView(generics.ListAPIView):
     """
@@ -52,6 +54,7 @@ class RecipeLikeAPIView(generics.CreateAPIView):
             user=request.user, recipe=recipe)
         if created:
             new_like.save()
+            create_or_update_recipe_like_notification_for_mail.delay(recipe.id)
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
