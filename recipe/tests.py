@@ -68,8 +68,6 @@ class RecipeAPITestCase(APITestCase):
         self.assertEqual(Recipe.objects.count(), 2)
         self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
 
-
-
     def test_recipe_update(self):
         self.client.force_authenticate(user=self.user)
         url = reverse('recipe:recipe-detail', kwargs={'pk': self.recipe.id})
