@@ -47,28 +47,26 @@ class RecipeAPITestCase(APITestCase):
         self.assertEqual(response_data_normalized, serializer_data_normalized)
 
 
-    # def test_recipe_create(self):
-    #     self.client.force_authenticate(user=self.user)
-    #     url = reverse('recipe:recipe-create')
+    def test_recipe_create(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse('recipe:recipe-create')
         
-    #     image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
-    #     picture = SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
-    #     data = {
-    #         'title': 'New Recipe',
-    #         'desc': 'New Description',
-    #         'cook_time': '02:30:00',  
-    #         'ingredients': 'New Ingredients',
-    #         'procedure': 'New Procedure',
-    #         'picture': picture,
-    #         'category': self.category
-    #     }
+        image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
+        picture = SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
+        data = {
+            'title': 'New Recipe',
+            'desc': 'New Description',
+            'cook_time': '02:30:00',  
+            'ingredients': 'New Ingredients',
+            'procedure': 'New Procedure',
+            'picture':picture,
+            'category.name': 'indian'
+        }
 
-    #     response = self.client.post(url, data, format='multipart')
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(Recipe.objects.count(), 2)
-    #     self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
-
-
+        response = self.client.post(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Recipe.objects.count(), 2)
+        self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
 
     def test_recipe_update(self):
         self.client.force_authenticate(user=self.user)
