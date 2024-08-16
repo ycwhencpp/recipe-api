@@ -99,16 +99,16 @@ class UserTests(APITestCase):
 
     def test_user_bookmark_create(self):
         image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
-        category = RecipeCategory.objects.create(name='Test Category')
+        category = RecipeCategory.objects.create(name='test')
 
         recipe = Recipe.objects.create(
             author=self.user,
             category=category,
-            title='Test Recipe',
-            desc='Test Description',
+            title='test',
+            desc='test',
             cook_time=time(1, 30),
-            ingredients='Test Ingredients',
-            procedure='Test Procedure',
+            ingredients='test',
+            procedure='test',
             picture= SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
         )
         url = reverse('users:user-bookmark', kwargs={'pk': self.user.id})
@@ -119,15 +119,15 @@ class UserTests(APITestCase):
 
     def test_user_bookmark_delete(self):
         image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
-        category = RecipeCategory.objects.create(name='Test Category')
+        category = RecipeCategory.objects.create(name='test')
         recipe = Recipe.objects.create(
             author=self.user,
             category=category,
-            title='Test Recipe',
-            desc='Test Description',
+            title='test',
+            desc='test',
             cook_time=time(1, 30),
-            ingredients='Test Ingredients',
-            procedure='Test Procedure',
+            ingredients='test',
+            procedure='test',
             picture= SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
         )
 

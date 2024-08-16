@@ -15,18 +15,18 @@ class RecipeAPITestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create_user(username='testuser', password='testpass', email='testuser@com.com')
-        self.category = RecipeCategory.objects.create(name='Test Category')
+        self.category = RecipeCategory.objects.create(name='category')
         image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
 
         
         self.recipe = Recipe.objects.create(
             author=self.user,
             category=self.category,
-            title='Test Recipe',
-            desc='Test Description',
+            title='test',
+            desc='test',
             cook_time=time(1, 30),
-            ingredients='Test Ingredients',
-            procedure='Test Procedure',
+            ingredients='test',
+            procedure='test',
             picture= SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
         )
 
@@ -54,11 +54,11 @@ class RecipeAPITestCase(APITestCase):
         image_path = os.path.join(settings.BASE_DIR, 'recipe', 'test_images', 'test_image.png')
         picture = SimpleUploadedFile(name='test_image.png', content=open(image_path, 'rb').read(), content_type='image/jpeg')
         data = {
-            'title': 'New Recipe',
-            'desc': 'New Description',
+            'title': 'title',
+            'desc': 'desc',
             'cook_time': '02:30:00',  
-            'ingredients': 'New Ingredients',
-            'procedure': 'New Procedure',
+            'ingredients': 'ingredients',
+            'procedure': 'procedure',
             'picture':picture,
             'category.name': 'indian'
         }
@@ -66,7 +66,7 @@ class RecipeAPITestCase(APITestCase):
         response = self.client.post(url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Recipe.objects.count(), 2)
-        self.assertEqual(Recipe.objects.latest('id').title, 'New Recipe')
+        self.assertEqual(Recipe.objects.latest('id').title, 'title')
 
 
 
@@ -74,13 +74,13 @@ class RecipeAPITestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse('recipe:recipe-detail', kwargs={'pk': self.recipe.id})
         data = {
-            'title': 'Updated Recipe',
-            'desc': 'Updated Description'
+            'title': 'updated title',
+            'desc': 'updated desc'
         }
         response = self.client.patch(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.recipe.refresh_from_db()
-        self.assertEqual(self.recipe.title, 'Updated Recipe')
+        self.assertEqual(self.recipe.title, 'updated title')
 
     def test_recipe_delete(self):
         self.client.force_authenticate(user=self.user)
@@ -108,11 +108,11 @@ class RecipeAPITestCase(APITestCase):
         url = reverse('recipe:recipe-create')
         data = {
             'category': self.category.id,
-            'title': 'New Recipe',
-            'desc': 'New Description',
-            'cook_time': '00:45:00',
-            'ingredients': 'New Ingredients',
-            'procedure': 'New Procedure'
+            'title': 'title',
+            'desc': 'desc',
+            'cook_time': '02:30:00',  
+            'ingredients': 'ingredients',
+            'procedure': 'procedure',
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -124,7 +124,7 @@ class RecipeAPITestCase(APITestCase):
 
     def test_recipe_list_filter(self):
         url = reverse('recipe:recipe-list')
-        response = self.client.get(url, {'category__name': 'Test Category'})
+        response = self.client.get(url, {'category__name': 'category'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
@@ -133,17 +133,17 @@ class RecipeAPITestCase(APITestCase):
         self.assertEqual(len(response.data), 1)
 
     def test_unauthorized_recipe_update(self):
-        other_user = User.objects.create_user(username='otheruser', email='other@example.com', password='otherpass')
+        other_user = User.objects.create_user(username='otheruser', email='other@com.com', password='otherpass')
         self.client.force_authenticate(user=other_user)
         url = reverse('recipe:recipe-detail', kwargs={'pk': self.recipe.id})
         data = {
-            'title': 'Unauthorized Update'
+            'title': 'test title'
         }
         response = self.client.patch(url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_unauthorized_recipe_delete(self):
-        other_user = User.objects.create_user(username='otheruser', email='other@example.com', password='otherpass')
+        other_user = User.objects.create_user(username='otheruser', email='other@com.com', password='otherpass')
         self.client.force_authenticate(user=other_user)
         url = reverse('recipe:recipe-detail', kwargs={'pk': self.recipe.id})
         response = self.client.delete(url)
