@@ -76,18 +76,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USERNAME'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOSTNAME'),
-#         'PORT': config('DB_PORT', cast=int),
-#     }
-# }
-
-DATABASES = {
+if config('ENVIRONMENT') == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USERNAME'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOSTNAME'),
+            'PORT': config('DB_PORT', cast=int),
+        }
+    }
+else :
+    DATABASES = {
     "default":dj_database_url.parse(config('DB_URL'))
 }
 
@@ -204,8 +205,15 @@ DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 3  # in hours
 
 
 # Celery settings
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+
+if config('ENVIRONMENT') == 'development':
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+else:
+    CELERY_BROKER_URL = 'redis://redis:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_TIMEZONE = 'Asia/Kolkata'

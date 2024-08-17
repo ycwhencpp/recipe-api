@@ -1,0 +1,740 @@
+{
+	"info": {
+		"_postman_id": "459d7553-f5ba-4aac-8ae4-36cf4f1125b3",
+		"name": "Recipe App API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16191484"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{user_name}}\",\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token Refresh",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/token/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"token",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/logout/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Info",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{updated_user_name}}\",\n    \"email\": \"{{updated_user_email}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bio\": \"Updated user bio\",\n    \"bookmark\": [{{recipe_id}}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Avatar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/profile/avatar/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								"avatar",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Avatar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/path/to/avatar.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/profile/avatar/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								"avatar",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Bookmarks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/profile/{{user_id}}/bookmarks/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								"{{user_id}}",
+								"bookmarks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Bookmark",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": {{recipe_id}}\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/profile/{{user_id}}/bookmarks/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								"{{user_id}}",
+								"bookmarks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Bookmark",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": {{recipe_id}}\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/profile/{{user_id}}/bookmarks/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								"{{user_id}}",
+								"bookmarks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"old_password\": \"{{old_password}}\",\n    \"new_password\": \"{{new_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/user/password/change/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"password",
+								"change",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "List Recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/recipe/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "New Recipe",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "A short description",
+									"type": "text"
+								},
+								{
+									"key": "cook_time",
+									"value": "00:30:00",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "Ingredient 1, Ingredient 2",
+									"type": "text"
+								},
+								{
+									"key": "procedure",
+									"value": "Step 1, Step 2",
+									"type": "text"
+								},
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/home/heisenberg/Downloads/untitled wallpaper (1).png"
+								},
+								{
+									"key": "category[name]",
+									"value": "ndian",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category.name",
+									"value": "indian",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/recipe/create/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recipe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/recipe/{{recipe_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Recipe Title\",\n    \"desc\": \"Updated description\",\n    \"cook_time\": \"00:45:00\",\n    \"ingredients\": \"Updated ingredients\",\n    \"procedure\": \"Updated procedure\",\n    \"category\": {\"name\": \"Updated Category\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/recipe/{{recipe_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipe/{{recipe_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipe/{{recipe_id}}/like/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}",
+								"like",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlike Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipe/{{recipe_id}}/like/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}",
+								"like",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "undefined",
+				"type": "any"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://recipe-api-bf6x.onrender.com/api"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "recipe_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "old_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "new_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "updated_user_name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "updated_user_email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
