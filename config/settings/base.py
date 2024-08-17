@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,15 +76,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USERNAME'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOSTNAME'),
+#         'PORT': config('DB_PORT', cast=int),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USERNAME'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOSTNAME'),
-        'PORT': config('DB_PORT', cast=int),
-    }
+    "default":dj_database_url.parse(config('DB_URL'))
 }
 
 
