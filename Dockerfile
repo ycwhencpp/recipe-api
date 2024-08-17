@@ -16,5 +16,7 @@ COPY . /recipe-docker/
 # Expose the port the app runs on
 EXPOSE 8000
 
+RUN python manage.py collectstatic --noinput
+
 # Command to run the application
 CMD ["bash", "-c", "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"]
