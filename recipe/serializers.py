@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Recipe, RecipeCategory, RecipeLike, MailQueue, MailStat, RecipeLikeNotifications
+from drf_spectacular.utils import extend_schema_field
 
 from django.contrib.auth import get_user_model
 
@@ -26,16 +27,20 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ('id', 'category', 'category_name', 'picture', 'title', 'desc',
                   'cook_time', 'ingredients', 'procedure', 'author', 'username',
                   'total_number_of_likes', 'total_number_of_bookmarks')
-
+        
+    @extend_schema_field(str)
     def get_username(self, obj):
         return obj.author.username
-
+    
+    @extend_schema_field(str)
     def get_category_name(self, obj):
         return obj.category.name
 
+    @extend_schema_field(int)
     def get_total_number_of_likes(self, obj):
         return obj.get_total_number_of_likes()
-
+    
+    @extend_schema_field(int)
     def get_total_number_of_bookmarks(self, obj):
         return obj.get_total_number_of_bookmarks()
     def create(self, validated_data):
