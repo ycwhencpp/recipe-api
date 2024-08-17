@@ -1,4 +1,4 @@
-
+https://recipe-api-bf6x.onrender.com/
 # Live Server Consideration
 
 - **500 Error During Recipe Liking**: If a 500 error occurs when liking a recipe, it might be due to Celery workers being inactive,as we are using a free deployment service that may stop services unexpectedly.
