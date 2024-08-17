@@ -12,19 +12,21 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
       - redis
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_URL=${DB_URL}
 
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:5432"
+
+  # db:
+  #   image: postgres:latest
+  #   environment:
+  #     # POSTGRES_DB: ${DB_NAME}
+  #     # POSTGRES_USER: ${DB_USERNAME}
+  #     # POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #     POSTGRES
+  #   ports:
+  #     - "5432:5432"
 
   redis:
     image: redis:latest
@@ -45,6 +47,8 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DB_URL=${DB_URL}
+
 
   celery-beat:
     build:
@@ -59,3 +63,5 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DB_URL=${DB_URL}
+
