@@ -81,3 +81,6 @@ open htmlcov/index.html
 - **Cron Job**: A cron job runs every 10 minutes to process potential emails in the `mail_queue`. You can schedule emails by adding rows to this table, another cron runs at 12:00 Am to process potential notifications from `recipe_like_notifications`.
 
 - **Time-Specific Emails**: To send emails at specific times, we can add a `to_send_after` column to the `mail_queue` to define the desired timeframe.
+
+# Logs 
+- recipe.log contains log entries for errors and information related to liking a recipe, adding to the mail queue, and sending emails.
