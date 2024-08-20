@@ -80,3 +80,6 @@ class PasswordChangeSerializer(serializers.Serializer):
         instance.set_password(validated_data['new_password'])
         instance.save()
         return instance
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()

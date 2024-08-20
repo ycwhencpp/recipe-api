@@ -10,7 +10,7 @@ from recipe.models import Recipe
 from .models import Profile
 from recipe.serializers import RecipeSerializer
 from . import serializers
-
+from users.serializers import LogoutSerializer
 
 User = get_user_model()
 
@@ -61,16 +61,18 @@ class UserLogoutAPIView(GenericAPIView):
     An endpoint to logout users.
     """
     permission_classes = (IsAuthenticated,)
-
+    serializer_class = LogoutSerializer
     def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            refresh_token = request.data["refresh"]
+            refresh_token = serializer.validated_data["refresh"]
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
+        
 
 class UserAPIView(RetrieveUpdateAPIView):
     """
